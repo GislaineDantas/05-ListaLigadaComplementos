@@ -8,7 +8,7 @@ struct NO {
 };
 
 NO* primeiro = NULL;
-NO* primeiro = NULL;
+NO* ultimo = NULL;
 
 // headers
 void menu();
@@ -70,7 +70,7 @@ void menu()
 
 void inicializar()
 {
-	// se a lista j· possuir elementos
+	// se a lista j√° possuir elementos
 // libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
