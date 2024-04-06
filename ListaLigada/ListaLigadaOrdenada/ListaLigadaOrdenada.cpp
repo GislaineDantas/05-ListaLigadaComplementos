@@ -8,6 +8,7 @@ struct NO {
 };
 
 NO* primeiro = NULL;
+NO* ultimo = NULL;
 
 // headers
 void menu();
@@ -118,6 +119,7 @@ void inserirElemento()
 	NO* novo = (NO*)malloc(sizeof(NO));
 	if (novo == NULL)
 	{
+		cout << "Erro na alocaçao de memoria." << endl;
 		return;
 	}
 
@@ -128,26 +130,101 @@ void inserirElemento()
 	if (primeiro == NULL)
 	{
 		primeiro = novo;
+		ultimo = novo;
+		return;
 	}
-	else
+	if (novo->valor < primeiro->valor)
 	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
-		}
-		aux->prox = novo;
+		novo->prox = primeiro;
+		primeiro = novo;
+		return;
+	}
+
+	NO* anterior = primeiro;
+	NO* atual = primeiro->prox;
+
+	while (atual != NULL && atual->valor < novo->valor)
+	{
+		anterior = atual;
+		atual = atual->prox;
+	}
+
+	if (atual != NULL && atual->valor == novo->valor)
+	{
+		cout << "Elemento já existe na lista." << endl;
+		delete novo;
+		return;
+	}
+
+	anterior->prox = novo;
+	novo->prox = atual;
+
+	if (atual == NULL)
+	{
+		ultimo = novo;
 	}
 }
 
 void excluirElemento()
 {
+	if (primeiro == NULL)
+	{
+		cout << "Lista vazia." << endl;
+		return;
+	}
+	int elemento;
+	cout << "Digite o elemento a ser excluido: ";
+	cin >> elemento;
 
+	NO* anterior = NULL;
+	NO* atual = primeiro;
+
+	while (atual != NULL && atual->valor < elemento)
+	{
+		anterior = atual;
+		atual = atual->prox;
+	}
+	if (atual != NULL && atual->valor == elemento)
+	{
+		if (anterior == NULL)
+		{
+			primeiro = atual->prox;
+		}
+		else
+		{
+			anterior->prox = atual->prox;
+		}
+		delete atual;
+		cout << "Elemento excluido." << endl;
+	}
+	else
+	{
+		cout << "Elemento nao encontrado na lista." << endl;
+	}
 }
 
 void buscarElemento()
 {
+	if (primeiro == NULL)
+	{
+		cout << "Lista vazia" << endl;
+		return;
+	}
+	int elemento;
+	cout << "Digite o elemento a ser buscado: ";
+	cin >> elemento;
 
+	NO* atual = primeiro;
+	while (atual != NULL && atual->valor < elemento)
+	{
+		atual = atual->prox;
+	}
+	if (atual != NULL && atual->valor == elemento)
+	{
+		cout << "Elemento encontrado na lista." << endl;
+	}
+	else
+	{
+		cout << "Elemento nao encontrado na lista." << endl;
+	}
 }
-
-
